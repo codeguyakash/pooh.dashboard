@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./pooh.png" type="image/x-icon" />
     <title>New Password</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
@@ -61,15 +62,30 @@
         cursor: pointer;
         color: #007bff;
       }
+      footer {
+        text-align: center;
+        margin-top: 100px;
+      }
+      a {
+        color: #939393;
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
     <img src="./pooh.png" alt="pooh" />
-    <h1 style="text-align: center">Reset Your Password</h1>
+    <h1 style="text-align: center">New Password</h1>
     <form>
       <input type="hidden" name="token" value="{{token}}" />
-      <label for="new-password">New Password:</label>
-      <input type="password" id="new-password" name="newPassword" required />
+      <label for="new-password" aria-placeholder="New Password"
+        >New Password:</label
+      >
+      <input
+        type="password"
+        id="new-password"
+        name="newPassword"
+        placeholder="Enter New Password"
+        required />
       <span id="show-password">Show Password</span>
       <button type="submit">Reset Password</button>
     </form>
@@ -109,5 +125,8 @@
         }
       });
     </script>
+    <footer>
+      <a href="https://codeguyakash.in">@codeguyakash</a>
+    </footer>
   </body>
 </html>
