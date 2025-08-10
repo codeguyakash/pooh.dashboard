@@ -70,36 +70,60 @@
         color: #939393;
         text-decoration: none;
       }
+      #response-message {
+        margin: 10px auto 0 auto;
+        text-align: center;
+        font-weight: 600;
+        font-size: large;
+      }
+
+      #success-message {
+        color: green;
+        font-size: 20px;
+        text-align: center;
+        font-weight: 200;
+      }
     </style>
   </head>
   <body>
-    <img src="./pooh.png" alt="pooh" />
-    <h1 style="text-align: center">New Password</h1>
-    <form>
-      <input type="hidden" name="token" value="{{token}}" />
-      <label for="new-password" aria-placeholder="New Password"
-        >New Password:</label
-      >
-      <input
-        type="password"
-        id="new-password"
-        name="newPassword"
-        placeholder="Enter New Password"
-        required />
-      <span id="show-password">Show Password</span>
-      <button type="submit">Reset Password</button>
-    </form>
+    <div id="container">
+      <img src="./pooh.png" alt="pooh" />
+      <h1 style="text-align: center">New Password</h1>
+      <form>
+        <input type="hidden" name="token" value="{{token}}" />
+        <label for="new-password" aria-placeholder="New Password"
+          >New Password:</label
+        >
+        <input
+          type="password"
+          id="new-password"
+          name="newPassword"
+          placeholder="Enter New Password"
+          required />
+        <span id="show-password">Show Password</span>
+        <button type="submit">Reset Password</button>
+      </form>
+      <span id="response-message"></span>
+    </div>
+
     <script>
       const showPasswordSpan = document.getElementById('show-password');
       const passwordInput = document.getElementById('new-password');
+      const responseMessage = document.getElementById('response-message');
+      const container = document.getElementById('container');
+
+      const successMessage = document.getElementById('success-message');
+
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get('token');
+
+      // Toggle password visibility
       showPasswordSpan.addEventListener('click', () => {
         const isPasswordVisible = passwordInput.type === 'text';
         passwordInput.type = isPasswordVisible ? 'password' : 'text';
         showPasswordSpan.textContent = isPasswordVisible
-          ? 'Hide Password'
-          : 'Show Password';
+          ? 'Show Password'
+          : 'Hide Password';
       });
 
       const form = document.querySelector('form');
@@ -110,21 +134,42 @@
             'https://pooh-codeguyakash.vercel.app/reset-password',
             {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 token: token,
                 newPassword: form.newPassword.value,
               }),
             }
           );
+
+          let data = await response.json();
+
+          if (response.ok) {
+            responseMessage.textContent =
+              data.message || 'Password reset successfully!';
+            responseMessage.style.color = 'green';
+            setTimeout(() => {
+              window.location.replace('/');
+            }, 5000);
+          } else {
+            responseMessage.textContent =
+              data.message || 'Error resetting password.';
+            responseMessage.style.color = 'red';
+          }
         } catch (error) {
+          responseMessage.textContent =
+            'Error resetting password. Please try again later.';
+          responseMessage.style.color = 'red';
           console.error('Error resetting password:', error);
-          alert('Error resetting password. Please try again later.');
         }
       });
+
+      setTimeout(() => {
+        responseMessage.textContent = '';
+        responseMessage.style.color = '';
+      }, 5000);
     </script>
+
     <footer>
       <a href="https://codeguyakash.in">@codeguyakash</a>
     </footer>
