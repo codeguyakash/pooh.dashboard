@@ -129,18 +129,16 @@
       const form = document.querySelector('form');
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
+        let url = 'https://itsakssh.vercel.app/reset-password';
         try {
-          let response = await fetch(
-            'https://pooh-codeguyakash.vercel.app/reset-password',
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                token: token,
-                newPassword: form.newPassword.value,
-              }),
-            }
-          );
+          let response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token: token,
+              newPassword: form.newPassword.value,
+            }),
+          });
 
           let data = await response.json();
 
