@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Toaster, toast } from 'sonner';
+import Image from 'next/image';
 
 export default function ResetPasswordPage() {
   const searchParams = useSearchParams();
@@ -36,13 +37,13 @@ export default function ResetPasswordPage() {
       console.log('Res', res);
       console.log('Res Data', res.data);
       if (res.data.success) {
-        let msg = res.data.message || 'Password Reset successfully';
+        const msg = res.data.message || 'Password Reset successfully';
         toast.success(msg);
         router.replace('/login');
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        let msg =
+        const msg =
           err.response?.data?.message || err.message || 'Something Went Wrong';
         console.log('Error', msg);
         toast.error(msg);
@@ -57,10 +58,12 @@ export default function ResetPasswordPage() {
     <div className="min-h-screen flex flex-col items-center justify-center  p-4">
       <Toaster position="top-center" closeButton={false} />
       <div className="w-full max-w-md rounded-lg shadow p-6">
-        <img
+        <Image
           src="/pooh.png"
           alt="pooh"
           className="mx-auto mb-4 h-48 object-contain"
+          height={192}
+          width={192}
         />
         <h1 className="text-center text-2xl font-semibold mb-2">
           New Password
