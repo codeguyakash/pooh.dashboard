@@ -72,7 +72,7 @@ function ResetPasswordForm() {
           required
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2"
+          className="w-full border border-gray-300 rounded px-3 py-2 dark:text-white dark:bg-black"
         />
         <span
           className="text-xs text-blue-600 text-right block cursor-pointer"
